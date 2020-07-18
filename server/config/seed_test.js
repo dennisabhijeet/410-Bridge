@@ -1,0 +1,13 @@
+module.exports = {
+  // disbable logging for testing
+  logging: true,
+  dbLog: false,
+  seed: true,
+  db: {
+    hostname: process.env.RDS_TEST_HOSTNAME,
+    port: process.env.RDS_TEST_PORT,
+    dbName: process.env.RDS_TEST_DB_NAME,
+    username: process.env.RDS_TEST_USERNAME,
+    password: process.env.RDS_TEST_PASSWORD,
+  },
+}

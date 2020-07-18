@@ -1,0 +1,1 @@
+createPartner | updatePartnerInfo | deleteData | sendNotification | makeTripActive

@@ -1,0 +1,6 @@
+node_modules/
+.env
+.idea
+.code
+.DS_Store
+server/uploads/image/
