@@ -276,7 +276,6 @@ exports.updateForgottenPass = function () {
               next(new Error('Wrong Code'))
               return
             }
-            console.log(password)
             await user.update({
               password,
             })

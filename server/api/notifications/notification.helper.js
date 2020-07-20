@@ -1,39 +1,58 @@
 var { Notification } = require('./notification.model')
+var { Announcement } = require('../announcements/announcement.model')
 var { UserNotificationToken } = require('../user/user.model')
 var _ = require('lodash')
 
-// "text"
-// "user"
+/**
+ * announcementId
+ * announcement_date
+ * userId
+ * notificationSend
+ * notificationSendTime
+ * notificationReceived
+ * notificationReceivedTime
+ */
 
 exports.createNotification = async (notificationData) => {
-  // create new notification
-  const newNotification = new Notification(notificationData)
-  const notification = await newNotification.save()
+  let notification = await Notification.create(notificationData)
   return notification
 }
 
-exports.updateNotification = async (
-  notificationOldData,
-  notificationNewData
-) => {
-  let notification = _.merge(notificationOldData, notificationNewData)
-  let saved = await notification.save()
-  return saved
+exports.updateNotification = async (where = {}, notificationNewData) => {
+  await Notification.update(notificationNewData, { where })
+  return notificationNewData
 }
 
-exports.deleteNotification = async (notification) => {
-  const removed = await notification.remove()
-  return removed
+exports.deleteNotification = async (where = {}) => {
+  await Notification.destroy({ where })
+  return { _id: where._id, removed: true }
 }
 
 exports.findNotifications = async (where = {}) => {
-  const notifications = await Notification.find(q)
+  let notifications = await Notification.findAll({
+    where,
+    include: [
+      {
+        model: Announcement,
+      },
+    ],
+    limit: 100,
+    order: [['_id', 'DESC']],
+  })
+
   return notifications
 }
 
 exports.findNotification = async (where = {}) => {
-  const notification = await Notification.findOne(q)
-  return notification
+  const notification = await Notification.findOne({
+    where,
+    include: [
+      {
+        model: Announcement,
+      },
+    ],
+  })
+  return notification ? notification : {}
 }
 
 exports.createNotificationToken = async (notificationTokenData) => {

@@ -3,68 +3,76 @@ exports.params = async (req, res, next) => {
   const notification = await notificationHelper.findNotification({
     _id: req.params.id,
   })
-  if (!notification) {
-    next(new Error('No notification with that id'))
+  if (Object.keys(notification).length == 0) {
+    next(new Error('No notification found'))
   } else {
-    req.notification = notification
+    req.requestedNotification = notification
     next()
   }
 }
 
 exports.get = async (req, res, next) => {
-  const query = {}
-  if (req.user.cat !== 'admin') query.user = req.user._id
-  const notifications = await notificationHelper.findNotifications(query)
+  const requestedUserId = req.query.userId
+  if (!requestedUserId || req.user._id != requestedUserId) {
+    next(new Error('Unauthorized'))
+    return
+  }
+  const notifications = await notificationHelper.findNotifications({
+    userId: requestedUserId,
+  })
   res.json(notifications)
 }
 
 exports.getOne = async (req, res, next) => {
-  if (
-    !(req.notification.user === req.user.profile._id) &&
-    !(req.user.cat === 'admin')
-  ) {
+  if (!(req.requestedNotification.accouncement.partnerId == partnerId)) {
     next(new Error('Unauthorized'))
     return
   }
-  // const notification = await notificationHelper.findNotification({
-  //   _id: req.params.id
-  // })
-  res.json(req.notification)
+  res.json(req.requestedNotification)
 }
 
 // exports.put = async (req, res, next) => {
-//   if (req.user.cat !== 'admin') {
+//   const partnerId = req.partner._id
+//   if (
+//     !(
+//       Object.keys(req.policy).length > 0 &&
+//       req.requestedNotification.partnerId == partnerId
+//     )
+//   ) {
 //     next(new Error('Unauthorized'))
 //     return
 //   }
+//   // can't change partner
+//   delete req.body.partnerId
 //   const updated = await notificationHelper.updateNotification(
-//     req.notification,
+//     { _id: req.params.id },
 //     req.body
 //   )
 //   res.json(updated)
 // }
 
-exports.post = async (req, res, next) => {
-  if (req.user.cat !== 'admin') {
-    next(new Error('Unauthorized'))
-    return
-  }
-  const newNotification = await notificationHelper.createNotification(req.body)
-  res.status(201).json(newNotification)
-}
+// exports.post = async (req, res, next) => {
+//   if (!(Object.keys(req.policy).length > 0)) {
+//     next(new Error('Unauthorized'))
+//     return
+//   }
+//   const newNotification = await notificationHelper.createNotification(req.body)
+//   res.status(201).json(newNotification)
+// }
 
 exports.postToken = async (req, res, next) => {
   req.body.userId = req.user._id
   const newToken = await notificationHelper.createNotificationToken(req.body)
-  console.log(newToken)
   res.status(201)
 }
 
-exports.delete = async (req, res, next) => {
-  if (req.user.cat !== 'admin') {
-    next(new Error('Unauthorized'))
-    return
-  }
-  const removed = await notificationHelper.deleteNotification(req.notification)
-  res.json(removed)
-}
+// exports.delete = async (req, res, next) => {
+//   if (!(req.policy && req.policy.deleteData)) {
+//     next(new Error('Unauthorized'))
+//     return
+//   }
+//   const removed = await notificationHelper.deleteNotification({
+//     _id: req.params.id,
+//   })
+//   res.json(removed)
+// }

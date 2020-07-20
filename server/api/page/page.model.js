@@ -50,7 +50,7 @@ Page.init(
     },
     pageType: {
       type: Sequelize.STRING,
-      values: ['global', 'country'],
+      values: ['global', 'country', 'support'],
       defaultValue: 'global',
     },
     pageTypeId: {
@@ -58,7 +58,7 @@ Page.init(
       defaultValue: 0,
     },
   },
-  { sequelize, modelName: 'pages' }
+  { sequelize, modelName: 'pages', charset: 'utf8mb4' }
 )
 
 Page.belongsTo(Partner)

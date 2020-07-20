@@ -7,12 +7,13 @@ var DB = require('./index')
 // import models
 var ActionEvents = require('../../api/actionEvents/actionEvents.model')
 var { Announcement } = require('../../api/announcements/announcement.model')
+var { Notification } = require('../../api/notifications/notification.model')
 var { Message } = require('../../api/messageBoard/message.model')
 var { TripDoc } = require('../../api/tripDocuments/tripDoc.model')
 var { Community } = require('../../api/community/community.model')
 var { Country } = require('../../api/country/country.model')
 var { Organization } = require('../../api/organization/organization.model')
-var Packaging = require('../../api/packaging/packaging.model')
+// var Packaging = require('../../api/packaging/packaging.model')
 var { Page } = require('../../api/page/page.model')
 var { Partner } = require('../../api/partners/partner.model')
 var { Policy } = require('../../api/policy/policy.model')
@@ -30,10 +31,10 @@ const dbs = [
   Trip,
   TripRole,
   Page,
-  Packaging,
   Message,
   TripDoc,
   Announcement,
+  Notification,
   ActionEvents,
 ]
 

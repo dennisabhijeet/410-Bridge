@@ -13,7 +13,6 @@ const cronFunction = async function () {
     const timeNow = moment().set({ hour: 0, minute: 0, second: 0 })
     const timeTomorrow = moment().set({ hour: 23, minute: 59, second: 59 })
     const announcements = await getAnnouncementsInRange(timeNow, timeTomorrow)
-    console.log(announcements)
     const formatedAnnouncementsandUsers = await getFomatedAnnouncementsAndUser(
       announcements
     )
@@ -29,5 +28,4 @@ var job = new CronJob(
   null
   // true
 )
-
 job.start()

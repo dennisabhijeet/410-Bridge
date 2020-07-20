@@ -63,7 +63,7 @@ exports.findTrips = async ({ where, offset, limit, order }, userId) => {
   if (userId) {
     const user = await User.findByPk(userId)
     return await user.getTrips({
-      where: { ...where },
+      where: { ...where, is_active: true },
       include: [{ model: Country }],
     })
   }
@@ -89,18 +89,18 @@ exports.findTrips = async ({ where, offset, limit, order }, userId) => {
         required: false,
         as: 'country',
       },
-      {
-        model: Organization,
-        attributes: ['_id'],
-        required: false,
-        as: 'organizations',
-      },
-      {
-        model: Community,
-        attributes: ['_id'],
-        required: false,
-        as: 'communities',
-      },
+      // {
+      //   model: Organization,
+      //   attributes: ['_id'],
+      //   required: false,
+      //   as: 'organizations',
+      // },
+      // {
+      //   model: Community,
+      //   attributes: ['_id'],
+      //   required: false,
+      //   as: 'communities',
+      // },
     ],
     group: ['trips._id'],
     offset,

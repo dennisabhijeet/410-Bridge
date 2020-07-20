@@ -56,6 +56,11 @@ Announcement.init(
     announcement_date: {
       type: Sequelize.DATE,
       allowNull: false,
+      validate: {
+        isDate: {
+          msg: 'Not a valid announcement date',
+        },
+      },
     },
     announcement_sent: {
       type: Sequelize.BOOLEAN,

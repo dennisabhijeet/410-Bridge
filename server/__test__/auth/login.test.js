@@ -16,7 +16,7 @@ describe('POST /auth/login', function () {
       }
       expect.assertions(2)
       let { body } = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/v1/auth/login')
         .set('Accept', 'application/json')
         .send(wrongUser)
         .expect('Content-Type', /json/)
@@ -32,7 +32,7 @@ describe('POST /auth/login', function () {
         password: '2',
       }
       let { body } = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/v1/auth/login')
         .set('Accept', 'application/json')
         .send(wrongUser)
         .expect('Content-Type', /json/)
@@ -46,7 +46,7 @@ describe('POST /auth/login', function () {
     test('successful login', async () => {
       expect.assertions(8)
       let { body } = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/v1/auth/login')
         .set('Accept', 'application/json')
         .send(user)
         .expect('Content-Type', /json/)
@@ -74,7 +74,7 @@ describe(`POST /auth/selectPartner`, () => {
       partnerID: 9999,
     }
     let { body } = await request(app)
-      .post('/api/v1/auth/selectPartner')
+      .post('/v1/auth/selectPartner')
       .set('Accept', 'application/json')
       .set('Authorization', `Bearer ${user.token}`)
       .send(partner)
@@ -90,7 +90,7 @@ describe(`POST /auth/selectPartner`, () => {
       partnerID: user.partners[0]._id,
     }
     let { body } = await request(app)
-      .post('/api/v1/auth/selectPartner')
+      .post('/v1/auth/selectPartner')
       .set('Accept', 'application/json')
       .set('Authorization', `Bearer ${user.token}`)
       .send(partner)
@@ -121,7 +121,7 @@ describe(`POST /auth/forgetPass`, () => {
       }
       expect.assertions(2)
       let { body } = await request(app)
-        .post('/api/v1/auth/forgetPass')
+        .post('/v1/auth/forgetPass')
         .set('Accept', 'application/json')
         .send(wrongUser)
         .expect('Content-Type', /json/)
@@ -133,7 +133,7 @@ describe(`POST /auth/forgetPass`, () => {
     test('With correct email', async () => {
       expect.assertions(2)
       let { body } = await request(app)
-        .post('/api/v1/auth/forgetPass')
+        .post('/v1/auth/forgetPass')
         .set('Accept', 'application/json')
         .set('Authorization', `Bearer ${user.token}`)
         .send({
@@ -158,7 +158,7 @@ describe(`POST /auth/forgetPass`, () => {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF5bWFuQHRlc3QuY29tIiwiaWF0IjoxNTg5OTgyNDc5LCJleHAiOjE1ODAwMDAwMDB9.IO0Ayzm70sKAXbOG83rlePye-jilCqT5l5Hyoapxnx4'
       expect.assertions(2)
       let { body } = await request(app)
-        .post(`/api/v1/auth/forgetPass/${wrongUrlKey}`)
+        .post(`/v1/auth/forgetPass/${wrongUrlKey}`)
         .set('Accept', 'application/json')
         .send(forgetPass)
         .expect('Content-Type', /json/)
@@ -173,7 +173,7 @@ describe(`POST /auth/forgetPass`, () => {
       const wrongCode = '1234'
       expect.assertions(2)
       let { body } = await request(app)
-        .post(`/api/v1/auth/forgetPass/${forgetPass.urlKey}`)
+        .post(`/v1/auth/forgetPass/${forgetPass.urlKey}`)
         .set('Accept', 'application/json')
         .send({ ...forgetPass, code: wrongCode })
         .expect('Content-Type', /json/)
@@ -185,7 +185,7 @@ describe(`POST /auth/forgetPass`, () => {
     test('Successfully Update New Passowrd', async () => {
       expect.assertions(1)
       let { body } = await request(app)
-        .post(`/api/v1/auth/forgetPass/${forgetPass.urlKey}`)
+        .post(`/v1/auth/forgetPass/${forgetPass.urlKey}`)
         .set('Accept', 'application/json')
         .send(forgetPass)
         .expect('Content-Type', /json/)
@@ -196,7 +196,7 @@ describe(`POST /auth/forgetPass`, () => {
     test('(Error) Try to update password again', async () => {
       expect.assertions(2)
       let { body } = await request(app)
-        .post(`/api/v1/auth/forgetPass/${forgetPass.urlKey}`)
+        .post(`/v1/auth/forgetPass/${forgetPass.urlKey}`)
         .set('Accept', 'application/json')
         .send(forgetPass)
         .expect('Content-Type', /json/)
@@ -216,7 +216,7 @@ describe(`POST /auth/forgetPass`, () => {
         password: 'testtest',
       }
       let { body } = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/v1/auth/login')
         .set('Accept', 'application/json')
         .send(wrongUser)
         .expect('Content-Type', /json/)
@@ -228,7 +228,7 @@ describe(`POST /auth/forgetPass`, () => {
     test('login with new password', async () => {
       expect.assertions(8)
       let { body } = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/v1/auth/login')
         .set('Accept', 'application/json')
         .send({
           email: user.email,

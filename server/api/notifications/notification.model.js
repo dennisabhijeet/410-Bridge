@@ -1,6 +1,9 @@
 const Sequelize = require('sequelize')
 const { Model } = Sequelize
 const sequelize = require('../../util/db')
+
+const { Announcement } = require('../announcements/announcement.model')
+
 class Notification extends Model {}
 
 Notification.init(
@@ -18,6 +21,10 @@ Notification.init(
       },
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
+      unique: {
+        name: 'user_announcement',
+        msg: 'One user gets an announcement once',
+      },
     },
     announcement_date: {
       type: Sequelize.DATE,
@@ -32,6 +39,10 @@ Notification.init(
       },
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
+      unique: {
+        name: 'user_announcement',
+        msg: 'One user gets an announcement once',
+      },
     },
 
     notificationSend: {
@@ -64,5 +75,7 @@ Notification.init(
   },
   { sequelize, modelName: 'notifications' }
 )
+Announcement.hasMany(Notification)
+Notification.belongsTo(Announcement)
 
 module.exports = { Notification }

@@ -27,7 +27,7 @@ exports.createUser = async (userData) => {
   // if no user found create User
   if (!user) {
     user = await User.create({ ...userData, password })
-    const username = user.name.silit(' ')[0]
+    const username = user.name.split(' ')[0]
     // send mail for creating user
     await sendMailCreateUser({
       mailSubject: `Welcome ${username} to ${partner.name}`,
@@ -35,16 +35,16 @@ exports.createUser = async (userData) => {
       password: password,
       name: username,
       partnerName: partner.name,
-    })
+    }).catch(console.error)
   } else {
-    const username = user.name.silit(' ')[0]
+    const username = user.name.split(' ')[0]
     // send mail for creating user
     sendMailCreateUser({
       mailSubject: `Welcome ${username} to ${partner.name}`,
       email: user.email,
       name: username,
       partnerName: partner.name,
-    })
+    }).catch(console.error)
   }
   const addAssociationsPromise = []
   // add Partner
@@ -73,14 +73,14 @@ exports.createMultipleUsers = async (usersData, partnerId) => {
   const partner = await parnerHelper.findPartner({ _id: partnerId })
   const usersPartnerPromise = users.map(([user, created], i) => {
     if (created) {
-      const username = user.name.silit(' ')[0]
+      const username = user.name.split(' ')[0]
       sendMailCreateUser({
         mailSubject: `Welcome ${username} to ${partner.name}`,
         email: user.email,
         password: passwords[i],
         name: username,
         partnerName: partner.name,
-      })
+      }).catch(console.error)
     }
     return user.addPartner(partnerId)
   })
@@ -116,7 +116,7 @@ exports.updateUser = async (
   return userNewData
 }
 
-exports.deleteUser = async (where = {}, partnerId = 0) => {
+exports.deleteUser = async (where = {}, partnerId = 0, policyId = 0) => {
   let user = await User.findOne({
     where,
     include: [
@@ -130,6 +130,11 @@ exports.deleteUser = async (where = {}, partnerId = 0) => {
     await UserPartner.destroy({
       where: { userId: user._id, partnerId: partnerId },
     })
+    if (policyId) {
+      await UserPolicy.destroy({
+        where: { userId: user._id, policyId: policyId },
+      })
+    }
     await user.removeTrip({
       where: { partnerId: partnerId },
     })

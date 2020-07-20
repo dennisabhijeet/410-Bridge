@@ -6,18 +6,18 @@ var _ = require('lodash')
 var config = require('../config/config')
 
 // create a noop (no operation) function for when loggin is disabled
-var noop = function() {}
+var noop = function () {}
 // check if loggin is enabled in the config
 // if it is, then use console.log
 // if not then noop
 var consoleLog = config.logging ? console.log.bind(console) : noop
 
 var logger = {
-  log: function() {
+  log: function () {
     var tag = '[ ✨  LOG ✨  ]'.green
     // arguments is an array like object with all the passed
     // in arguments to this function
-    var args = _.toArray(arguments).map(function(arg) {
+    var args = _.toArray(arguments).map(function (arg) {
       if (typeof arg === 'object') {
         // turn the object to a string so we
         // can log all the properties and color it
@@ -36,8 +36,8 @@ var logger = {
     consoleLog.apply(console, args)
   },
 
-  error: function() {
-    var args = _.toArray(arguments).map(function(arg) {
+  error: function () {
+    var args = _.toArray(arguments).map(function (arg) {
       arg = arg.stack || arg
       var name = arg.name || '[ ❌ ERROR ❌ ]'
       var log = name.yellow + '  ' + arg.red
@@ -45,7 +45,7 @@ var logger = {
     })
 
     consoleLog.apply(console, args)
-  }
+  },
 }
 
 module.exports = logger

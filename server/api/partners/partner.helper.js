@@ -37,7 +37,6 @@ exports.createPartner = async (partnerData, adminUser) => {
   await userHelper.createUser(user)
   await adminUser.addPolicy(newPolicy)
   let data = await adminUser.addPartner(newPartner)
-  console.log(data)
   // create Trip Roles
   const tripRoleComon = {
     name: 'Common',

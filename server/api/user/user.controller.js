@@ -106,6 +106,18 @@ exports.put = async (req, res, next) => {
     next(new Error('Unauthorized'))
     return
   }
+  // can't update root user
+  if (
+    req.requestedUser.policies &&
+    req.requestedUser.policies.length &&
+    req.requestedUser.policies.find((el) => el.partnerId == partnerId)
+      .createPartner
+  ) {
+    if (!req.policy.createPartner) {
+      next(new Error('Unauthorized'))
+      return
+    }
+  }
   if (req.body.policyId && !(req.policy && req.policy.updatePartnerInfo)) {
     delete req.body.policyId
   }
@@ -161,7 +173,27 @@ exports.delete = async (req, res, next) => {
     next(new Error('Unauthorized'))
     return
   }
-  const removed = await userHelper.deleteUser({ _id: req.params.id }, partnerId)
+  // can't delete root user
+  if (
+    req.requestedUser.policies &&
+    req.requestedUser.policies.length &&
+    req.requestedUser.policies.find((el) => el.partnerId == partnerId)
+      .createPartner
+  ) {
+    if (!req.policy.createPartner) {
+      next(new Error('Unauthorized'))
+      return
+    }
+  }
+  const policyId =
+    req.requestedUser.policies &&
+    req.requestedUser.policies.length &&
+    req.requestedUser.policies.find((el) => el.partnerId == partnerId)._id
+  const removed = await userHelper.deleteUser(
+    { _id: req.params.id },
+    partnerId,
+    policyId
+  )
   res.json(removed)
 }
 
