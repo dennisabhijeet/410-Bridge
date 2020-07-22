@@ -45,10 +45,10 @@ const transporter = nodemailer.createTransport({
     user: config.smtp.username, // generated ethereal user
     pass: config.smtp.password, // generated ethereal password
   },
-  tls: {
-    // do not fail on invalid certs
-    rejectUnauthorized: false,
-  },
+  // tls: {
+  //   // do not fail on invalid certs
+  //   rejectUnauthorized: false,
+  // },
 })
 
 /**
