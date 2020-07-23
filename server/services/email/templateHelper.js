@@ -178,7 +178,7 @@ const getEmailBodyCreateUser = (company, user) => {
       </p>
       <p>
         <strong>Password:</strong> ${
-          user.password || '<with your existing password>'
+          user.password || '&lt;with your existing password&lt;'
         }
       </p>
     </div>
@@ -186,9 +186,8 @@ const getEmailBodyCreateUser = (company, user) => {
   </div>
 
   <p style="font: 14px/1.25em 'Helvetica Neue', Arial, Helvetica;color: #333;">
-    <strong>What's 410Bridge?</strong> 410 bridge engages with
-    global communities stuck in extreme poverty to achieve two
-    primary objectives:
+    <strong>What's 410Bridge?</strong> 410 Bridge exists to redefine the war on poverty,
+    how to win it, what it means for the people and communities living in poverty, and how we fight that battle together.
     <a
       href="https://410bridge.org/"
       style="
@@ -239,9 +238,8 @@ const getEmailBodyForgetPassword = (company, user) => {
   </div>
 
   <p style="font: 14px/1.25em 'Helvetica Neue', Arial, Helvetica;color: #333;">
-    <strong>What's 410Bridge?</strong> 410 bridge engages with
-    global communities stuck in extreme poverty to achieve two
-    primary objectives:
+    <strong>What's 410Bridge?</strong> 410 Bridge exists to redefine the war on poverty,
+    how to win it, what it means for the people and communities living in poverty, and how we fight that battle together.
     <a
       href="https://410bridge.org/"
       style="
