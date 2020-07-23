@@ -178,7 +178,7 @@ const getEmailBodyCreateUser = (company, user) => {
       </p>
       <p>
         <strong>Password:</strong> ${
-          user.password || '&lt;with your existing password&lt;'
+          user.password || '&lt;with your existing password&gt;'
         }
       </p>
     </div>
