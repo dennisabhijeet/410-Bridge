@@ -1,6 +1,6 @@
 var { Op } = require('sequelize')
-var Sequelize = require('sequelize')
-var sequelize = require('../../util/db')
+// var Sequelize = require('sequelize')
+// var sequelize = require('../../util/db')
 const notification = require('../../services/notification')
 
 const announcementHelper = require('../../api/announcements/announcement.helper')
@@ -70,12 +70,7 @@ const getFomatedAnnouncementsAndUser = async (announcements = []) => {
     }
     return TripUser.findAll({
       where: {
-        [Op.and]: [
-          {
-            tripId: announcement.tripId,
-          },
-          Sequelize.where(sequelize.col('trip_roles._id'), '=', null),
-        ],
+        tripId: announcement.tripId,
       },
       include: [
         {
@@ -91,13 +86,6 @@ const getFomatedAnnouncementsAndUser = async (announcements = []) => {
             required: true,
           },
           required: true,
-        },
-        {
-          model: TripRole,
-          as: 'trip_roles',
-          attributes: ['_id', 'name'],
-          duplicating: false,
-          required: false,
         },
       ],
     })

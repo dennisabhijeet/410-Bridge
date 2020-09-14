@@ -3,6 +3,7 @@ const { User } = require('../user/user.model')
 const userHelper = require('../user/user.helper')
 const { createTripRole } = require('../tripRole/tripRole.helper')
 const { createPolicy } = require('../policy/policy.helper')
+const logger = require('../../util/logger')
 
 /**
  * name
@@ -63,7 +64,12 @@ exports.deletePartner = async (where = {}) => {
 
 exports.findPartners = async ({ userId }) => {
   const user = await User.findOne({ where: { _id: userId } })
-  const partners = await user.getPartners()
+  let partners = await user.getPartners()
+  const policies = await user.getPolicies()
+  partners = JSON.parse(JSON.stringify(partners)).map((partner) => {
+    partner.policy = policies.find((policy) => policy.partnerId == partner._id)
+    return partner
+  })
   return partners
 }
 

@@ -72,7 +72,10 @@ exports.getFreshUser = function () {
       query.include.push({
         model: Policy,
       })
-      query.include.push({ model: Partner, attributes: ['name', '_id'] })
+      query.include.push({
+        model: Partner,
+        attributes: ['name', '_id', 'logo', 'theme'],
+      })
     }
     User.findOne(query).then(
       async function (user) {
