@@ -1,6 +1,6 @@
 module.exports = {
   // disbable logging for production
-  logging: false,
+  logging: true,
   dbLog: false,
   seed: false,
   db: {
