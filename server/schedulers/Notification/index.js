@@ -107,11 +107,10 @@ function runTaskOnMaster(taskToRun) {
     .catch((err) => logger.error(err))
 }
 
-// var job = new CronJob(
-//   '30 12,17,23 * * *',
-//   runTaskOnMaster(cronFunction),
-//   null
-//   // true
-// )
-// job.start()
-runTaskOnMaster(cronFunction)
+var job = new CronJob(
+  '30 12,17,23 * * *',
+  runTaskOnMaster(cronFunction),
+  null
+  // true
+)
+job.start()
