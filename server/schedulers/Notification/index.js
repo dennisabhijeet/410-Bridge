@@ -1,6 +1,4 @@
-const {
-  CronJob
-} = require('cron')
+const { CronJob } = require('cron')
 const moment = require('moment')
 const AWS = require('aws-sdk')
 const logger = require('../../util/logger')
@@ -16,12 +14,12 @@ const cronFunction = async function () {
     const timeNow = moment().set({
       hour: 0,
       minute: 0,
-      second: 0
+      second: 0,
     })
     const timeTomorrow = moment().set({
       hour: 23,
       minute: 59,
-      second: 59
+      second: 59,
     })
     const announcements = await getAnnouncementsInRange(timeNow, timeTomorrow)
     const formatedAnnouncementsandUsers = await getFomatedAnnouncementsAndUser(
@@ -35,7 +33,7 @@ const cronFunction = async function () {
 }
 
 AWS.config.update({
-  region: 'us-east-1'
+  region: 'us-east-1',
 }) // change to your region
 var opts = {
   credentials: new AWS.EC2MetadataCredentials(), // default to use the credentials for the ec2 instance
@@ -47,21 +45,23 @@ var metadata = new AWS.MetadataService(opts)
 
 function runTaskOnMaster(taskToRun) {
   return new Promise((resolve, reject) => {
-      metadata.request('/latest/meta-data/instance-id', (err, InstanceId) => {
-        if (err) {
-          return reject(err)
-        }
-        return resolve(InstanceId)
-      })
+    metadata.request('/latest/meta-data/instance-id', (err, InstanceId) => {
+      if (err) {
+        return reject(err)
+      }
+      return resolve(InstanceId)
     })
+  })
     .then((currentInstanceId) => {
       logger.log('InstanceId', currentInstanceId)
       return new Promise((resolve, reject) => {
         var params = {
-          Filters: [{
-            Name: 'resource-id',
-            Values: [currentInstanceId],
-          }, ],
+          Filters: [
+            {
+              Name: 'resource-id',
+              Values: [currentInstanceId],
+            },
+          ],
         }
 
         ec2.describeTags(params, (err, data) => {
@@ -78,8 +78,9 @@ function runTaskOnMaster(taskToRun) {
             )
           }
 
-          elasticbeanstalk.describeEnvironmentResources({
-              EnvironmentId: envIdTag.Value
+          elasticbeanstalk.describeEnvironmentResources(
+            {
+              EnvironmentId: envIdTag.Value,
             },
             function (err, data) {
               if (err) {
@@ -98,9 +99,9 @@ function runTaskOnMaster(taskToRun) {
     })
     .then((isMaster) => {
       if (!isMaster) {
-        logger.log('Not running task as not master EB instance.');
+        logger.log('Not running task as not master EB instance.')
       } else {
-        logger.log('Identified as master EB instance. Running task.');
+        logger.log('Identified as master EB instance. Running task.')
         taskToRun()
       }
     })
@@ -109,7 +110,7 @@ function runTaskOnMaster(taskToRun) {
 
 var job = new CronJob(
   '30 12,17,23 * * *',
-  runTaskOnMaster(cronFunction),
+  () => runTaskOnMaster(cronFunction),
   null
   // true
 )
