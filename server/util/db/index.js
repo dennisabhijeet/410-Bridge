@@ -32,6 +32,7 @@ const db = new Sequelize(
   config.db.password,
   {
     host: config.db.hostname,
+    port: config.db.port,
     dialect: 'mysql',
     // logging: () => {},
     logging: config.dbLog ? console.log : () => {},
