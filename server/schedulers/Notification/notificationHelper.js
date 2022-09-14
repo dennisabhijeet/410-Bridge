@@ -99,11 +99,12 @@ const getFomatedAnnouncementsAndUser = async (announcements = []) => {
     const announcement = announcements[i]
     for (let j = 0; j < userList.length; j++) {
       const { user } = userList[j]
+      const { trip } = userList[j]
       const notification = {
         to: user.user_notification_tokens[0].token,
         title: announcement.title,
         body: announcement.body,
-        data: { partnerId: announcement.partnerId },
+        data: { partnerId: announcement.partnerId , tripId:trip._id, tripName:trip.name},
         sound: announcement.sound || 'default',
         ttl: announcement.ttl || 0,
       }
