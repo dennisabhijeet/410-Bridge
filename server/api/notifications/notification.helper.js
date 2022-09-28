@@ -2,6 +2,7 @@ var { Notification } = require('./notification.model')
 var { Announcement } = require('../announcements/announcement.model')
 var { UserNotificationToken } = require('../user/user.model')
 var _ = require('lodash')
+const { Trip } = require('../trip/trip.model')
 
 /**
  * announcementId
@@ -34,6 +35,11 @@ exports.findNotifications = async (where = {}) => {
     include: [
       {
         model: Announcement,
+        include:{
+          model: Trip,
+          attributes: ['name'],
+          required: true
+        }
       },
     ],
     limit: 100,
@@ -49,6 +55,11 @@ exports.findNotification = async (where = {}) => {
     include: [
       {
         model: Announcement,
+        include:{
+          model: Trip,
+          attributes:['name'],
+          required: true
+        }
       },
     ],
   })
