@@ -37,7 +37,6 @@ exports.findNotifications = async (where = {}) => {
         model: Announcement,
         include:{
           model: Trip,
-          attributes: ['name'],
           required: true
         }
       },
@@ -57,7 +56,6 @@ exports.findNotification = async (where = {}) => {
         model: Announcement,
         include:{
           model: Trip,
-          attributes:['name'],
           required: true
         }
       },
