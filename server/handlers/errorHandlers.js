@@ -36,7 +36,6 @@ exports.developmentErrors = (err, req, res, next) => {
     })
     return
   }
-
   // console.log(req);
   logger.error(err.stack)
   res.status(err.status || 500).json({

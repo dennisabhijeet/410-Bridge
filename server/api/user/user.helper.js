@@ -280,3 +280,21 @@ exports.findUser = async (where = {}, partnerId = 0) => {
   const policies = await user.getPolicies({ where: includePolicyWhere })
   return { ...userData, policies }
 }
+
+exports.verifyPassword = async function(email, password){
+    
+  // look user up in the DB so we can check
+  // if the passwords match for the email
+  const user = await  User.findOne({
+    where: { email: email },
+    include: [{ model: Policy }, { model: Partner }],
+  })
+   
+ return user && user.authenticate(password)
+ 
+}
+
+exports.deleteAccount = async function(email){
+  const user = await User.findOne({where: {email}});
+  return  user.destroy();
+}
