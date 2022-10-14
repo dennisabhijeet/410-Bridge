@@ -21,4 +21,7 @@ router
   .put(checkUser, catchErrors(controller.put))
   .delete(checkUser, catchErrors(controller.delete))
 
+router.route('/deleteAccount')
+  .post(checkUser, catchErrors(controller.deleteAccount))
+  
 module.exports = router
