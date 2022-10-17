@@ -107,6 +107,7 @@ const getFomatedAnnouncementsAndUser = async (announcements = []) => {
         data: { partnerId: announcement.partnerId , tripId:trip._id, tripName:trip.name},
         sound: announcement.sound || 'default',
         ttl: announcement.ttl || 0,
+        badge:1,
       }
       if (announcement.channelId) {
         notification.channelId = announcement.channelId
