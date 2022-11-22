@@ -18,10 +18,10 @@ router
 router
   .route('/:id')
   .get(checkUser, catchErrors(controller.getOne))
-  .put(checkUser, catchErrors(controller.put))
+  .post(checkUser, catchErrors(controller.updateUserDetails))
   .delete(checkUser, catchErrors(controller.delete))
 
 router.route('/deleteAccount')
   .post(checkUser, catchErrors(controller.deleteAccount))
-  
+
 module.exports = router
