@@ -93,7 +93,7 @@ exports.getOne = async (req, res, next) => {
   res.json(user)
 }
 
-exports.put = async (req, res, next) => {
+exports.updateUserDetails = async (req, res, next) => {
   const partnerId = req.partner._id
   if (
     !(
