@@ -18,7 +18,7 @@ router
 router
   .route('/:id')
   .get(checkUser, catchErrors(controller.getOne))
-  .post(checkUser, catchErrors(controller.updateUserDetails))
+  .put(checkUser, catchErrors(controller.put))
   .delete(checkUser, catchErrors(controller.delete))
 
 router.route('/deleteAccount')
