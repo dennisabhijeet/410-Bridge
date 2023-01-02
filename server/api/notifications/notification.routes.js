@@ -9,10 +9,13 @@ var { catchErrors } = require('../../handlers/errorHandlers')
 router.param('id', catchErrors(controller.params))
 
 router.route('/').get(checkUser, catchErrors(controller.get))
+router.route('/read').get(checkUser, catchErrors(controller.makeNotificationRead))
+router.route('/unread').get(checkUser, catchErrors(controller.getUnReadNotification))
 // .post(checkUser, catchErrors(controller.post))
 router.route('/token').post(checkUser, catchErrors(controller.postToken))
 router.route('/:id').get(checkUser, catchErrors(controller.getOne))
 // .put(checkUser, catchErrors(controller.put))
 // .delete(checkUser, catchErrors(controller.delete))
+
 
 module.exports = router
