@@ -78,21 +78,24 @@ exports.postToken = async (req, res, next) => {
 // }
 
 exports.makeNotificationRead = async(req, res, next)=>{
-  const requestedUserId = req.query.userId
-  if (!requestedUserId || req.user._id != requestedUserId) {
+  const userId = req.user._id;
+  if ( !userId) {
     next(new Error('Unauthorized'))
     return
   }
-  await notificationHelper.updateNotification({notificationReceivedTime: null, userId: requestedUserId}, {notificationReceivedTime: new Date()});
-  res.send(true);
+  await notificationHelper.updateNotification({readAt: null, userId: userId}, {readAt: new Date()});
+  res.json({hasReadNotification: true});
 }
 
-exports.getUnReadNotification = async(req,res,next) => {
-  const requestedUserId = req.query.userId
-  if (!requestedUserId || req.user._id != requestedUserId) {
+exports.hasNotification = async(req,res,next) => {
+  const userId = req.user._id;
+  if (!userId) {
     next(new Error('Unauthorized'))
     return
   }
-  const unReadNotificationCount   = await notificationHelper.findNotification({notificationReceivedTime: null,userId: requestedUserId,})
-  res.send(unReadNotificationCount.length);
+  const unReadNotificationCount   = await notificationHelper.findNotifications({readAt: null,userId:userId,})
+  const hasNotificationResponse = {
+    hasUnreadNotification : unReadNotificationCount.length > 0
+  }
+  res.json(hasNotificationResponse);
 }

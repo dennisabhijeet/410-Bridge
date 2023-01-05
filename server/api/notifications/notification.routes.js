@@ -10,7 +10,7 @@ router.param('id', catchErrors(controller.params))
 
 router.route('/').get(checkUser, catchErrors(controller.get))
 router.route('/read').get(checkUser, catchErrors(controller.makeNotificationRead))
-router.route('/unread').get(checkUser, catchErrors(controller.getUnReadNotification))
+router.route('/hasNotification').get(checkUser, catchErrors(controller.hasNotification))
 // .post(checkUser, catchErrors(controller.post))
 router.route('/token').post(checkUser, catchErrors(controller.postToken))
 router.route('/:id').get(checkUser, catchErrors(controller.getOne))

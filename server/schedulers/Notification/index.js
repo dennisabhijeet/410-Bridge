@@ -115,3 +115,11 @@ var job = new CronJob(
   // true
 )
 job.start()
+
+// var job = new CronJob(
+//   '52 15 * * *',
+//   () => cronFunction(),
+//   null
+//   // true
+// )
+// job.start()
