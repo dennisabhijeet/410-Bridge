@@ -8,4 +8,6 @@ router.route('/')
     .get(checkUser,catchErrors(controller.get))
     .put(checkUser, catchErrors(controller.put))
 
+router.route('/page').get(checkUser,catchErrors(controller.getPage))
+
 module.exports = router
