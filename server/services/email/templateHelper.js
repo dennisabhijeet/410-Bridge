@@ -50,11 +50,6 @@ const getEmailBodyFooter = (company) => {
                         <table width="140" height="27" border="0" cellspacing="0" cellpadding="0" align="center">
                           <tbody>
                             <tr align="center">
-                              <td width="28">
-                                <a href="https://twitter.com/${company.twitterHandle}" border="0" target="_blank">
-                                  <img src="http://media.sailthru.com/53p/1jz/a/e/561ebb2dcaf58.png" width="28" height="22" style="display: block;"/>
-                                </a>
-                              </td>
                               <td width="21">
                                 <a href="https://instagram.com/${company.instagramHandle}/" border="0" target="_blank" >
                                   <img src="http://media.sailthru.com/53p/1jz/a/e/561ebb81140eb.png" width="21" height="22" style="display: block;"/>
@@ -86,11 +81,6 @@ const getEmailBodyFooter = (company) => {
                         <a  href="${company.iosAppLink}"  target="_blank"  >
                           <img    src="http://media.sailthru.com/53p/1jz/a/e/561ebac54feca.png"    width="130"    height="40"    style="      display: block;      color: #666666;      font-family: Helvetica, arial,        sans-serif;      font-size: 13px;      width: 130px;      height: 40px;    "    alt="TaskRabbit in the AppStore"    border="0"/>
                         </a>
-                      </td>
-                      <td width="130" style="padding-left: 10px;">
-                        <a href="${company.androidAppLink}" target="_blank" >
-                          <img src="http://media.sailthru.com/53p/1jz/a/e/561ebafd84f13.png" width="130" height="40" style="   display: block;   color: #666666;   font-family: Helvetica, arial,     sans-serif;   font-size: 13px;   width: 130px;   height: 40px; " alt="TaskRabbit in the Google Play Store" border="0"
-                        /></a>
                       </td>
                     </tr>
                   </tbody>
@@ -166,8 +156,8 @@ const getEmailBodyCreateUser = (company, user) => {
     Welcome ${user.name} to ${user.partnerName || 'The Bridge App'}
   </h1>
 
-  <p style="font: 15px/1.25em 'Helvetica Neue', Arial, Helvetica;color: #333;text-align: center;">
-    We invite you to join the organization. Please download the app and login with the credientials bellow.
+  <p style="font: 15px/1.25em 'Helvetica Neue', Arial, Helvetica;color: #333;">
+  We’re excited for your upcoming trip with the 410 Bridge!  To help you prepare, our Trips App will and provide you important pre-trip information.  Please download <strong>The Bridge: Missions Pathway</strong> from the App Store or Google Play and login with the credentials below.
   </p>
 
   <div style="background: #f6f7f8; border-radius: 3px;">
@@ -186,8 +176,7 @@ const getEmailBodyCreateUser = (company, user) => {
   </div>
 
   <p style="font: 14px/1.25em 'Helvetica Neue', Arial, Helvetica;color: #333;">
-    <strong>What's 410Bridge?</strong> 410 Bridge exists to redefine the war on poverty,
-    how to win it, what it means for the people and communities living in poverty, and how we fight that battle together.
+    Thank you for joining us in our mission to redefine the war on poverty!<br/>
     <a
       href="https://410bridge.org/"
       style="
@@ -196,8 +185,8 @@ const getEmailBodyCreateUser = (company, user) => {
         font-weight: bold;
       "
       target="_blank"
-      >Learn more »</a
-    >
+      >Learn more </a
+    >about 410 Bridge.
   </p>`
   body += getEmailBodyFooter(company)
   return body
