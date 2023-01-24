@@ -157,7 +157,7 @@ const getEmailBodyCreateUser = (company, user) => {
   </h1>
 
   <p style="font: 15px/1.25em 'Helvetica Neue', Arial, Helvetica;color: #333;">
-  We’re excited for your upcoming trip with the 410 Bridge!  To help you prepare, our Trips App will and provide you important pre-trip information.  Please download <strong>The Bridge: Missions Pathway</strong> from the App Store or Google Play and login with the credentials below.
+  We’re excited for your upcoming trip with the 410 Bridge!  To help you prepare, our Trips App will provide you important pre-trip information.  Please download <strong>The Bridge: Missions Pathway</strong> from the App Store or Google Play and login with the credentials below.
   </p>
 
   <div style="background: #f6f7f8; border-radius: 3px;">
