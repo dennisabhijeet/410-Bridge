@@ -200,3 +200,19 @@ exports.delete = async (req, res, next) => {
 exports.me = function (req, res) {
   res.json(req.user)
 }
+
+exports.deleteAccount = async function(req, res, next)  {
+  const {password} = req.body;
+  const {email} = req.user;
+    // if no email or password then send
+    if (!email || !password) {
+      next(new Error('Password is Mandatory'))
+      return
+    }
+
+ const isValid = await userHelper.verifyPassword(email,password)
+ if(!isValid) return next(new Error('password is not valid'))
+   userHelper.deleteAccount(email).then(()=>{
+    res.status(200).json({success: true,message: "Account Deleted Successfully"})
+  }).catch(next)
+}

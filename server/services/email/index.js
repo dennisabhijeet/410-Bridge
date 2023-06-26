@@ -11,12 +11,11 @@ const company = {
   imgSrc: 'https://bucket-for-uploads.s3.amazonaws.com/public/logo-bridge.png',
   imgDesc: 'Bridge Logo',
   location: '3955 Marconi Drive, Alpharetta GA 30005',
-  supportLink: '',
-  privacyLink: '',
-  twitterHandle: '410bridge',
+  supportLink: 'mailto:Trips@410bridge.org',
+  privacyLink: 'https://410bridge.org/privacy/',
   facebookHandle: '410bridge',
   instagramHandle: '410bridge',
-  iosAppLink: 'https://apps.apple.com/bn/app/410bridge-handbook/id1457246058',
+  iosAppLink: 'https://apps.apple.com/in/app/the-bridge-missions-pathway/id1524981099',
   androidAppLink:
     'https://play.google.com/store/apps/details?id=com.bridge.handbook_v2&hl=en',
 }

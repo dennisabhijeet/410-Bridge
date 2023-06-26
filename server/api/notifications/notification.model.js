@@ -72,6 +72,11 @@ Notification.init(
       type: Sequelize.DATE,
       allowNull: false,
     },
+    readAt:{
+      type: Sequelize.DATE,
+      allowNull: true,
+      defaultValue: null,
+    }
   },
   { sequelize, modelName: 'notifications' }
 )

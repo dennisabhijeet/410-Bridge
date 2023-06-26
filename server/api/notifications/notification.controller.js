@@ -76,3 +76,26 @@ exports.postToken = async (req, res, next) => {
 //   })
 //   res.json(removed)
 // }
+
+exports.makeNotificationRead = async(req, res, next)=>{
+  const userId = req.user._id;
+  if ( !userId) {
+    next(new Error('Unauthorized'))
+    return
+  }
+  await notificationHelper.updateNotification({readAt: null, userId: userId}, {readAt: new Date()});
+  res.json({hasReadNotification: true});
+}
+
+exports.hasNotification = async(req,res,next) => {
+  const userId = req.user._id;
+  if (!userId) {
+    next(new Error('Unauthorized'))
+    return
+  }
+  const unReadNotificationCount   = await notificationHelper.findNotifications({readAt: null,userId:userId,})
+  const hasNotificationResponse = {
+    hasUnreadNotification : unReadNotificationCount.length > 0
+  }
+  res.json(hasNotificationResponse);
+}

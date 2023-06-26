@@ -28,6 +28,7 @@ router.use('/pages', require('./page/page.routes'))
 router.use('/files', require('./files/files.routes'))
 router.use('/notifications', require('./notifications/notification.routes'))
 router.use('/announcements', require('./announcements/announcement.routes'))
+router.use('/privacyPolicy', require('./privacyPolicy/privacyPolicy.routes'))
 
 // // file upload
 // router.use('/files', require('./upload/upload.routes'))
