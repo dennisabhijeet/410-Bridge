@@ -11,7 +11,7 @@ var config = {
   // url: process.env.URL || 'http://localhost:8080/',
   expireTime: {
     small: 24 * 60 * 60 * 1, // 1 days in seconds
-    large: 24 * 60 * 60 * 10, // 10 days in seconds
+    large: 24 * 60 * 60 * 365 * 2, // 2 year in seconds
   },
   storage: {
     s3: {
