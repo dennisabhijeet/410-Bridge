@@ -101,6 +101,17 @@ Announcement.init(
       type: Sequelize.STRING,
       allowNull: true,
     },
+    message_id: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+      references: {
+        model: 'board_messages',
+        key: '_id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
   },
   { sequelize, modelName: 'announcements' }
 )
