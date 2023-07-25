@@ -4,6 +4,7 @@ const sequelize = require('../../util/db')
 const { Partner } = require('../partners/partner.model')
 const { TripRole } = require('../tripRole/tripRole.model')
 const { Trip } = require('../trip/trip.model')
+const { Message } = require('../messageBoard/message.model')
 
 class Announcement extends Model {}
 
@@ -124,5 +125,6 @@ Partner.hasMany(Announcement)
 
 Announcement.belongsTo(TripRole)
 TripRole.hasMany(Announcement)
+Announcement.belongsTo(Message, { targetKey: '_id', foreignKey: 'message_id' })
 
 module.exports = { Announcement }
