@@ -142,6 +142,7 @@ exports.post = async (req, res, next) => {
   }
 
   req.body.partnerId = partnerId
+  console.log("req.body",req.body);
   const newAnnouncement = await announcementHelper.createAnnouncement(req.body)
   res.status(201).json([newAnnouncement])
 }

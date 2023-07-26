@@ -19,6 +19,7 @@ var _ = require('lodash')
  */
 exports.createAnnouncement = async (announcementData) => {
   let announcement = await Announcement.create(announcementData)
+  console.log("announcementannouncement",announcement);
   return announcement
 }
 
