@@ -4,6 +4,7 @@ var countryHelper = require('../country/country.helper')
 var communityHelper = require('../community/community.helper')
 var organizationHelper = require('../organization/organization.helper')
 const { orderString, searchObj } = require('../../util/helpers')
+var { Op } = require('sequelize')
 
 exports.params = async (req, res, next) => {
   const announcement = await announcementHelper.findAnnouncement({
@@ -98,7 +99,7 @@ exports.post = async (req, res, next) => {
   if (req.query.type) {
     const type = req.query.type // country || community || organization
     const typeId = req.query.typeId // _id
-
+    const tripIds = req.query.tripIds
     let trips = []
 
     switch (type) {
@@ -125,6 +126,15 @@ exports.post = async (req, res, next) => {
           partnerId,
         })
         trips = await organization.getTrips()
+        break
+      case 'trips':
+        trips = (await tripHelper.findTrips({
+          where:{
+            _id:{
+              [Op.in]:[...tripIds]
+            }
+          }
+        })).trips
         break
     }
     const announcements = trips.map((trip) => {
