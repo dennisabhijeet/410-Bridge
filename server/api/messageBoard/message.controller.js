@@ -1,4 +1,8 @@
 var messageHelper = require('./message.helper')
+var communityHelper = require('../community/community.helper')
+var organizationHelper = require('../organization/organization.helper')
+var tripHelper = require('../trip/trip.helper')
+const { Op } = require('sequelize')
 
 exports.params = async (req, res, next) => {
   const message = await messageHelper.findMessage({
@@ -50,11 +54,66 @@ exports.put = async (req, res, next) => {
 }
 
 exports.post = async (req, res, next) => {
+  const partnerId = req.partner._id
   if (!(Object.keys(req.policy).length > 0)) {
     next(new Error('Unauthorized'))
     return
   }
-  const partnerId = req.partner._id
+  if (req.query.type) {
+    const type = req.query.type // country || community || organization | trips
+    const typeId = req.query.typeId // _id || array<tripIds>
+    let trips = []
+
+    switch (type) {
+      case 'country':
+        trips = (
+          await tripHelper.findTrips({
+            where: {
+              countryId: typeId,
+              partnerId,
+            },
+          })
+        ).trips
+        break
+      case 'community':
+        const community = await communityHelper.findCommunity({
+          _id: typeId,
+          partnerId,
+        })
+        trips = await community.getTrips()
+        break
+      case 'organization':
+        const organization = await organizationHelper.findOrganization({
+          _id: typeId,
+          partnerId,
+        })
+        trips = await organization.getTrips()
+        break
+      case 'trips':
+        trips = (
+          await tripHelper.findTrips({
+            where: {
+              _id: {
+                [Op.in]: [...typeId],
+              },
+            },
+          })
+        ).trips
+        break
+    }
+    const tripMessages = trips.map((trip) => {
+      return {
+        ...req.body,
+        tripId: trip._id,
+        partnerId,
+      }
+    })
+    const newTripMessages = tripMessages.map((tripMessage)=> {
+      return messageHelper.createMessage(tripMessage)
+    })
+    res.status(201).json(await Promise.all(newTripMessages))
+    return
+  }
   req.body.partnerId = partnerId
   const newMessage = await messageHelper.createMessage(req.body)
   res.status(201).json(newMessage)
