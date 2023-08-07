@@ -4,6 +4,8 @@ var countryHelper = require('../country/country.helper')
 var communityHelper = require('../community/community.helper')
 var organizationHelper = require('../organization/organization.helper')
 const { orderString, searchObj } = require('../../util/helpers')
+const { Op } = require('sequelize')
+const messageHelper = require('../messageBoard/message.helper')
 
 exports.params = async (req, res, next) => {
   const announcement = await announcementHelper.findAnnouncement({
@@ -94,12 +96,12 @@ exports.post = async (req, res, next) => {
     next(new Error('Unauthorized'))
     return
   }
-
   if (req.query.type) {
     const type = req.query.type // country || community || organization
-    const typeId = req.query.typeId // _id
-
+    const typeId = req.query.typeId // _id || array<tripId>
+    const messageIds = req.query.messageIds
     let trips = []
+    const messages = await messageHelper.findMessages({_id:{[Op.in]:messageIds}})
 
     switch (type) {
       case 'country':
@@ -126,12 +128,27 @@ exports.post = async (req, res, next) => {
         })
         trips = await organization.getTrips()
         break
+      case 'trips':
+        trips = (await tripHelper.findTrips({
+          where:{
+            _id:{
+              [Op.in]:[...typeId]
+            }
+          }
+        })).trips
+        break
     }
     const announcements = trips.map((trip) => {
-      return {
-        ...req.body,
-        partnerId,
-        tripId: trip._id,
+      const findTripMessage= messages.find((message)=> {
+        return message.tripId === trip._id && message.partnerId === trip.partnerId
+      })
+      if(findTripMessage){
+        return {
+          ...req.body,
+          partnerId,
+          tripId: trip._id,
+          message_id: findTripMessage._id
+        }
       }
     })
     const newAnnouncementPromises = announcements.map((announcement) => {
