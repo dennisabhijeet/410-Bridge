@@ -109,7 +109,7 @@ function runTaskOnMaster(taskToRun) {
 }
 
 var job = new CronJob(
-  '30 12,17,23 * * *',
+  '0 * * * *',
   () => runTaskOnMaster(cronFunction),
   null
   // true
