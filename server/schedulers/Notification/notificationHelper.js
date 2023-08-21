@@ -11,6 +11,7 @@ const { TripRole } = require('../../api/tripRole/tripRole.model')
 const { User, UserNotificationToken } = require('../../api/user/user.model')
 const moment = require('moment')
 const { findGte, findLte } = require('../../util/helpers')
+const { findMessage } = require('../../api/messageBoard/message.helper')
 
 const getAnnouncementsInRange = async (start_date, end_date) => {
   const { announcements } = await announcementHelper.findAnnouncements({
@@ -97,6 +98,10 @@ const getFomatedAnnouncementsAndUser = async (announcements = []) => {
   for (let i = 0; i < tripUsers.length; i++) {
     const userList = tripUsers[i]
     const announcement = announcements[i]
+    let message;
+    if (announcement.message_id) {
+      message = await findMessage(announcement.message_id)
+    }
     for (let j = 0; j < userList.length; j++) {
       const { user } = userList[j]
       const { trip } = userList[j]
@@ -104,10 +109,15 @@ const getFomatedAnnouncementsAndUser = async (announcements = []) => {
         to: user.user_notification_tokens[0].token,
         title: announcement.title,
         body: announcement.body,
-        data: { partnerId: announcement.partnerId , tripId:trip._id, tripName:trip.name},
+        data: {
+          partnerId: announcement.partnerId,
+          tripId: trip._id,
+          tripName: trip.name,
+          message: message.toJSON() || '',
+        },
         sound: announcement.sound || 'default',
         ttl: announcement.ttl || 0,
-        badge:1,
+        badge: 1,
       }
       if (announcement.channelId) {
         notification.channelId = announcement.channelId
