@@ -29,6 +29,10 @@ const umzug = new Umzug({
     case 'down:all':
       await umzug.down({ to: 0 })
       break
+    case 'refresh':
+      await umzug.down({ to: 0 })
+      await umzug.up()
+      break
 
     default:
       await umzug.up()
