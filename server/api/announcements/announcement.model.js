@@ -126,5 +126,8 @@ Partner.hasMany(Announcement)
 Announcement.belongsTo(TripRole)
 TripRole.hasMany(Announcement)
 Announcement.belongsTo(Message, { targetKey: '_id', foreignKey: 'message_id' })
+Announcement.addScope('withMessages', {
+  include: [{ model: Message, required: false }],
+})
 
 module.exports = { Announcement }

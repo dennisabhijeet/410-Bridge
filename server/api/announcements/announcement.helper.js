@@ -5,6 +5,7 @@ var { Announcement } = require('./announcement.model')
 var { TripRole } = require('../tripRole/tripRole.model')
 var { Trip } = require('../trip/trip.model')
 var _ = require('lodash')
+const { Message } = require('../messageBoard/message.model')
 /**
  * title
  * userId (either userId or tripId. both can't be null)
@@ -34,7 +35,7 @@ exports.deleteAnnouncement = async (where = {}) => {
 }
 
 exports.findAnnouncements = async ({ where = {}, offset, limit, order }) => {
-  let announcements = await Announcement.findAll({
+  let announcements = await Announcement.scope('withMessages').findAll({
     where,
     include: [
       {
