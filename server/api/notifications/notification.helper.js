@@ -4,6 +4,7 @@ var { UserNotificationToken } = require('../user/user.model')
 var _ = require('lodash')
 const { Trip } = require('../trip/trip.model')
 const { Message } = require('../messageBoard/message.model')
+const { Sequelize, Op } = require('sequelize')
 
 /**
  * announcementId
@@ -31,8 +32,32 @@ exports.deleteNotification = async (where = {}) => {
 }
 
 exports.findNotifications = async (where = {}) => {
+
+  if(!!where.tripId && !!where.userId){
+
+    let notifications = await Notification.findAll({
+      where:{[Op.and]:[
+          Sequelize.literal(`exists(select * from announcements where notifications.announcementId = announcements._id and announcements.tripId = ${where.tripId} )`)
+        ], userId: where.userId},
+      include: [
+        {
+          model: Announcement,
+          include: [
+            { model: Trip, required: true  },
+            { model: Message, required: false },
+          ],
+        },
+      ],
+      limit: 100,
+      order: [['_id', 'DESC']],
+    })
+
+    return notifications
+
+  }
+
   let notifications = await Notification.findAll({
-    where,
+    where:{userId: where.userId},
     include: [
       {
         model: Announcement,
