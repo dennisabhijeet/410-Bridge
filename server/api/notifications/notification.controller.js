@@ -13,12 +13,15 @@ exports.params = async (req, res, next) => {
 
 exports.get = async (req, res, next) => {
   const requestedUserId = req.query.userId
+  const requestedTripId = req.query.tripId
+
   if (!requestedUserId || req.user._id != requestedUserId) {
     next(new Error('Unauthorized'))
     return
   }
   const notifications = await notificationHelper.findNotifications({
     userId: requestedUserId,
+    tripId: requestedTripId,
   })
   res.json(notifications)
 }
