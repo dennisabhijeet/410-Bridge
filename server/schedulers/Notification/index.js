@@ -117,7 +117,7 @@ function runTaskOnMaster(taskToRun) {
 // job.start()
 
 var job = new CronJob(
-  '0 * * * *',
+  '* * * * *',
   () => cronFunction(),
   null
   // true
