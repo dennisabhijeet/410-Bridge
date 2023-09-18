@@ -33,6 +33,7 @@ exports.deleteNotification = async (where = {}) => {
 
 exports.findNotifications = async (where = {}) => {
 
+  // for trip specific notifications
   if(!!where.tripId && !!where.userId){
 
     let notifications = await Notification.findAll({
@@ -56,6 +57,7 @@ exports.findNotifications = async (where = {}) => {
 
   }
 
+  // For User notifications for all trips
   let notifications = await Notification.findAll({
     where:{userId: where.userId},
     include: [
@@ -72,6 +74,32 @@ exports.findNotifications = async (where = {}) => {
   })
 
   return notifications
+}
+
+exports.findUnReadNotifications = async (where = {}) => {
+
+  // for unread notifications
+
+    let notifications = await Notification.findAll({
+      where:{
+        userId: where.userId,
+        readAt: where.readAt,
+      },
+      include: [
+        {
+          model: Announcement,
+          include: [
+            { model: Trip, required: true },
+            { model: Message, required: false },
+          ],
+        },
+      ],
+      limit: 100,
+      order: [['_id', 'DESC']],
+    })
+
+    return notifications
+
 }
 
 exports.findNotification = async (where = {}) => {
