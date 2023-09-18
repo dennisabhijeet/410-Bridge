@@ -96,7 +96,9 @@ exports.hasNotification = async(req,res,next) => {
     next(new Error('Unauthorized'))
     return
   }
-  const unReadNotificationCount   = await notificationHelper.findNotifications({readAt: null,userId:userId,})
+
+  const unReadNotificationCount   = await notificationHelper.findUnReadNotifications({readAt: null,userId:userId,});
+
   const hasNotificationResponse = {
     hasUnreadNotification : unReadNotificationCount.length > 0
   }
