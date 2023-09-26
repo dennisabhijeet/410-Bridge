@@ -108,18 +108,18 @@ function runTaskOnMaster(taskToRun) {
     .catch((err) => logger.error(err))
 }
 
-// var job = new CronJob(
-//   '0 * * * *',
-//   () => runTaskOnMaster(cronFunction),
-//   null
-//   // true
-// )
-// job.start()
-
 var job = new CronJob(
-  '* * * * *',
-  () => cronFunction(),
+  '0 * * * *',
+  () => runTaskOnMaster(cronFunction),
   null
   // true
 )
 job.start()
+
+// var job = new CronJob(
+//   '* * * * *',
+//   () => cronFunction(),
+//   null
+//   // true
+// )
+// job.start()
