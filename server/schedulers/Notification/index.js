@@ -110,7 +110,7 @@ function runTaskOnMaster(taskToRun) {
 
 var job = new CronJob(
   '* * * * *',
-  () => runTaskOnMaster(cronFunction),
+  () => runTaskOnMaster(cronFunction()),
   null
   // true
 )
