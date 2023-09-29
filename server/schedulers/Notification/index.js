@@ -109,7 +109,7 @@ function runTaskOnMaster(taskToRun) {
 }
 
 var job = new CronJob(
-  '*/5 * * * *',
+  '0 * * * *',
   () => runTaskOnMaster(cronFunction()),
   null
   // true
